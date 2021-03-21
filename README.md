@@ -21,7 +21,21 @@ cd into the api directory and run:
 ```
 python api.py
 ```
-This would start the flask server on your localhost.
+This would start the flask server on your localhost. You can GET query on following urls:
+
+```
+localhost:5000/user/
+localhost:5000/user/id/<give id here
+localhost:5000/user/name/<give name here>
+localhost:5000/user/mobile-number/<give mobile number here>
+localhost:5000/user/age/<give age here>
+```
+
+The POST request can be done on following url:
+
+```
+http://127.0.0.1:5000/
+```
 
 
 # Output
