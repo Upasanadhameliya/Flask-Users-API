@@ -27,7 +27,7 @@ This would start the flask server on your localhost.
 # Output
 
 ###### Fetching all users 
-![Alt text](Screenshots/All_users.png?raw=true "All Users png")
+![Alt text](Screenshots/All_users.png?raw=true "All Users JSON")
 
 ###### Fetching specific id
-![Alt text](screens/Id_query.png?raw=true "SportsDirect JSON")
+![Alt text](Screenshots/Id_query.png?raw=true "ID Query JSON")
