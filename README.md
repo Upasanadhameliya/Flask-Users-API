@@ -31,3 +31,21 @@ This would start the flask server on your localhost.
 
 ###### Fetching specific id
 ![Alt text](Screenshots/Id_query.png?raw=true "ID Query JSON")
+
+
+# API Security Measures
+
+Api security is important to prevent security threats or security breaches like:
+  - Man in the middle attacks
+  - Api injections
+  - Distributed Denial of Service (DDoS)
+
+Api Security can be achieved by implementing:
+- Authentication : To determine the identitiy of the user.
+- Authorization : Determining the resources that a user can access.
+
+
+In flask we can achieve these by using:
+- Using JWT : JSON Web Tokens (or JWTs) provide a means of transmitting information from the client to the server in a stateless, secure way.
+- Flask-Login package : Provides a way of user authentication by means of secret keys
+- Flask-Authorize package: Incorporates Access Control Lists (ACLs) and Role-Based Access Control (RBAC)
