@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
 import json
 from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
@@ -13,67 +11,61 @@ app.config['MONGODB_SETTINGS'] = {
 db = MongoEngine()
 db.init_app(app)
 
-class User(db.Document):
+class User1(db.Document):
+    uid = db.IntField(required=True)
     name = db.StringField()
-    email = db.StringField()
-    def to_json(self):
-        return {"name": self.name,
-                "email": self.email}
+    mobile_number = db.StringField()
+    age = db.IntField()
 
 
-# @app.route('/<int:number>/')
-# def incrementer(number):
-#     return "Incremented number is " + str(number+1)
+@app.route('/user/', methods=['GET'])
+@app.route('/user/id/<int:uid>/', methods=['GET'])
+@app.route('/user/name/<string:name>/', methods=['GET'])
+@app.route('/user/mobile-number/<string:number>/', methods=['GET'])
+@app.route('/user/age/<int:age>/', methods=['GET'])
+def query_records(uid=None,name=None,number=None,age=None):
 
-# @app.route('/<string:name>/')
-# def hello(name):
-#     return "Hello " + name
+    print(request.args)
+    print(uid)
+    print(name)
+    print(number)
+    print(age)
+
+    users = None
+
+    users = User1.objects(uid=uid) if uid is not None else \
+            User1.objects(name=name) if name is not None else \
+            User1.objects(mobile_number=number) if number is not None else \
+            User1.objects(age=age) if age is not None else \
+            User1.objects()
 
 
-@app.route('/', methods=['GET'])
-def query_records():
-    name = request.args.get('name')
-    user = User.objects(name=name).first()
-    if not user:
+    if not users:
         return jsonify({'error': 'data not found'})
     else:
-        return jsonify(user.to_json())
+        print(users.to_json())
+        return jsonify([{"ID":user.uid,"name":user.name, \
+                        "mobile number":user.mobile_number, \
+                        "age":user.age} for user in users])
+
 
 @app.route('/', methods=['POST'])
 def create_record():
 
     print(request.json)
-    # print(request.values)
-    # print(request.files)
-    # print(request.args)
-    # print(request.data)
-    # print(request.form)
+
     record = request.json
-    user = User(name=record.get('name'),
-                email=record.get('email'))
+    if record.get('ID',None) is None:
+        return jsonify({'error': 'ID is required'})
+
+    user = User1(uid=record.get('ID'),
+                name=record.get('name'),
+                mobile_number=record.get('mobile number'),
+                age=record.get('age'))
     user.save()
 
-    return jsonify({"Hello":"World"})
-
-# @app.route('/', methods=['POST'])
-# def update_record():
-#     record = json.loads(request.data)
-#     user = User.objects(name=record['name']).first()
-#     if not user:
-#         return jsonify({'error': 'data not found'})
-#     else:
-#         user.update(email=record['email'])
-#     return jsonify(user.to_json())
-
-# @app.route('/', methods=['DELETE'])
-# def delete_record():
-#     record = json.loads(request.data)
-#     user = User.objects(name=record['name']).first()
-#     if not user:
-#         return jsonify({'error': 'data not found'})
-#     else:
-#         user.delete()
-#     return jsonify(user.to_json())
+    return jsonify({"Status":200,"body":"Data stored successfully"})
 
 if __name__ == "__main__":
     app.run(debug=True)
+
