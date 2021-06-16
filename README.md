@@ -1,4 +1,4 @@
-# Task - Create API
+# REST API
 
 
 ## This repository uses python=3.8 with MongoDB version v4.4.4. The api allows users to do the following things:
